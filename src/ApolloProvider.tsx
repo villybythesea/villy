@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { client } from "./client"
 import { ApolloProvider } from "@apollo/react-hooks"
 
