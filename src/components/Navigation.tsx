@@ -3,9 +3,8 @@ import { Link } from "gatsby"
 import { AppBar, Toolbar, Box, Menu, MenuItem } from "@material-ui/core"
 
 const pages = [
-  { to: "/", children: "Home" },
-  { to: "/reservations/", children: "Reservations" },
-  { to: "/schedule/", children: "Schedule" },
+  { to: "/reservations/", children: "Резерваций" },
+  { to: "/schedule/", children: "График" },
 ]
 
 export const Navigation = () => {

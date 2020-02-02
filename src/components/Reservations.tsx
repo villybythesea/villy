@@ -56,14 +56,14 @@ export const Reservations = () => {
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell align="left">client_name</TableCell>
-              <TableCell align="left">arrival_date</TableCell>
-              <TableCell align="left">departure_date</TableCell>
-              <TableCell align="left">rooms</TableCell>
-              <TableCell align="left">created_at</TableCell>
-              <TableCell align="left">updated_at</TableCell>
-              <TableCell align="left">id</TableCell>
-              <TableCell align="left">actions</TableCell>
+              <TableCell align="left">Клиентско име</TableCell>
+              <TableCell align="left">Настаняване</TableCell>
+              <TableCell align="left">Освобождаване</TableCell>
+              <TableCell align="left">Стай</TableCell>
+              <TableCell align="left">Съставена</TableCell>
+              <TableCell align="left">Редактирана</TableCell>
+              <TableCell align="left">ИН</TableCell>
+              <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -111,12 +111,14 @@ export const Reservations = () => {
                   <TableCell align="left">
                     <Button
                       size="small"
+                      color="secondary"
+                      variant="outlined"
                       onClick={() => {
                         alert("You are about to delete")
                         deleteReservation({ variables: { id } })
                       }}
                     >
-                      delete
+                      изтрий
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -127,6 +129,6 @@ export const Reservations = () => {
       </Box>
     </Paper>
   ) : (
-    <h1>No reservations</h1>
+    <h1>Няма текущи резерваций...</h1>
   )
 }
