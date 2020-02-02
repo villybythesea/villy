@@ -7,7 +7,7 @@ import { getMainDefinition } from "apollo-utilities"
 const wsForNode = typeof window === "undefined" ? ws : null
 
 const wsLink = new WebSocketLink({
-  uri: `wss://${process.env.GATSBY_API_URL}`,
+  uri: `${process.env.GATSBY_WS_URL}`,
   options: {
     reconnect: true,
   },
@@ -15,7 +15,7 @@ const wsLink = new WebSocketLink({
 })
 
 const httpLink = new HttpLink({
-  uri: `http://${process.env.GATSBY_API_URL}`,
+  uri: `${process.env.GATSBY_API_URL}`,
   fetch,
 })
 

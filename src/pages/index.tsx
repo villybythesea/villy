@@ -9,14 +9,25 @@ const USER_DETAILS = gql`
     }
   }
 `
+const RESERVATION_DETAILS = gql`
+  query ReservationDetails {
+    reservation {
+      created_at
+    }
+  }
+`
 
 const IndexPage = () => {
-  const { loading, data, error } = useSubscription<{ client: Array<any> }>(
+  const { data: userData } = useSubscription<{ client: Array<any> }>(
     USER_DETAILS
   )
+  const { data: reservationData } = useSubscription<{
+    reservation: Array<any>
+  }>(RESERVATION_DETAILS)
   return (
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      {data?.client.map(({ first_name }) => first_name)}
+      {userData?.client.map(({ first_name }) => first_name)}
+      {reservationData?.reservation.map(({ created_at }) => created_at)}
     </div>
   )
 }
