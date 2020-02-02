@@ -29,7 +29,7 @@
     "@graphql-codegen/cli": "^1.12.1",
     "@graphql-codegen/typescript": "1.12.1",
     "@graphql-codegen/typescript-operations": "1.2.0",
-    "@graphql-codegen/typescript-react-apollo": "1.2.0",
+    "@graphql-codegen/typescript-react-apollo": "1.12.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/ws": "^7.2.1",
     "prettier": "^1.19.1",
