@@ -1,1 +1,1 @@
-export { wrapRootElement } from "./src/ApolloProvider"
+export { wrapRootElement } from "./src/utils/wrapRootElement"
