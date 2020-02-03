@@ -182,6 +182,8 @@ const CreateReservationFrom = () => {
                 onChange={date => {
                   setFieldValue("arrival_date", date.format(DATE_FORMAT))
                 }}
+                style={{ marginTop: 15 }}
+                inputVariant="outlined"
               />
               <DatePicker
                 autoOk
@@ -194,13 +196,12 @@ const CreateReservationFrom = () => {
                 minDate={moment(arrival_date)
                   .add("days", 1)
                   .format(DATE_FORMAT)}
+                style={{ marginTop: 15 }}
+                inputVariant="outlined"
               />
             </MuiPickersUtilsProvider>
             {!loading && data && (
               <>
-                <InputLabel id="select-label" shrink>
-                  Стаи
-                </InputLabel>
                 <Select
                   disabled={data.capacity_check.length === 0}
                   labelId="select-label"
@@ -208,7 +209,6 @@ const CreateReservationFrom = () => {
                   name={"data"}
                   multiple
                   onChange={handleChange}
-                  input={<Input id="select-multiple-chip" />}
                   value={values.data}
                   autoWidth
                   renderValue={selectedRooms => {
@@ -231,6 +231,8 @@ const CreateReservationFrom = () => {
                       </div>
                     )
                   }}
+                  variant="outlined"
+                  style={{ marginTop: 15 }}
                 >
                   {data.capacity_check.map(room => (
                     <MenuItem
@@ -268,6 +270,7 @@ const CreateReservationFrom = () => {
             {value === "new" ? (
               <>
                 <TextField
+                  variant="outlined"
                   id="first_name"
                   name="first_name"
                   type="text"
@@ -276,6 +279,8 @@ const CreateReservationFrom = () => {
                   value={values.first_name}
                 />
                 <TextField
+                  variant="outlined"
+                  style={{ marginTop: 15 }}
                   id="last_name"
                   name="last_name"
                   type="text"
@@ -284,6 +289,8 @@ const CreateReservationFrom = () => {
                   value={values.last_name}
                 />
                 <TextField
+                  variant="outlined"
+                  style={{ marginTop: 15 }}
                   id="email"
                   name="email"
                   type="text"
@@ -292,6 +299,8 @@ const CreateReservationFrom = () => {
                   value={values.email}
                 />
                 <TextField
+                  variant="outlined"
+                  style={{ marginTop: 15 }}
                   id="phone_number"
                   name="phone_number"
                   type="number"
@@ -307,6 +316,7 @@ const CreateReservationFrom = () => {
                 onChange={handleChange}
                 value={values.userId}
                 autoWidth
+                variant="outlined"
               />
             )}
           </Box>
