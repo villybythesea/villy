@@ -217,7 +217,6 @@ const IndexPage = () => {
             userId: null,
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            alert(JSON.stringify(values, null, 2))
             if (values.userId) {
               addReservationWithExistingClient({
                 variables: {
