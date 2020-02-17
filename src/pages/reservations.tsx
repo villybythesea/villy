@@ -5,7 +5,7 @@ import CreateReservationForm from "./../components/CreateReservationForm"
 export default () => {
   return (
     <>
-      <h1>Резерваций: </h1>
+      <h1>Резервации: </h1>
       <CreateReservationForm />
       <Reservations />
     </>
