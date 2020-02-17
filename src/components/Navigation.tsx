@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 import { AppBar, Toolbar, Box, Menu, MenuItem } from "@material-ui/core"
 
 const pages = [
-  { to: "/reservations/", children: "Резерваций" },
+  { to: "/reservations/", children: "Резервации" },
   { to: "/schedule/", children: "График" },
 ]
 

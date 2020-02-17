@@ -11,6 +11,7 @@ import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
 import Chip from "@material-ui/core/Chip"
 import Box from "@material-ui/core/Box"
+import { navigate } from "gatsby"
 
 const DELETE_RESERVATION = gql`
   mutation DeleteReservation($id: uuid!) {
@@ -50,85 +51,96 @@ export const Reservations = () => {
   if (loading) return <div>Loading...</div>
   if (error) return <div>{`Error! ${error.message}`}</div>
   return data.reservation.length > 0 ? (
-    <Paper>
-      <Box mb={1.5}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell align="left">Клиентско име</TableCell>
-              <TableCell align="left">Настаняване</TableCell>
-              <TableCell align="left">Освобождаване</TableCell>
-              <TableCell align="left">Стай</TableCell>
-              <TableCell align="left">Съставена</TableCell>
-              <TableCell align="left">Редактирана</TableCell>
-              <TableCell align="left">ИН</TableCell>
-              <TableCell align="left"></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.reservation.map(
-              (
-                {
-                  id,
-                  arrival_date,
-                  departure_date,
-                  rooms,
-                  created_at,
-                  updated_at,
-                  client: { first_name, last_name },
-                },
-                index
-              ) => (
-                <TableRow key={id}>
-                  <TableCell component="th" scope="row">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell align="left">
-                    {first_name} {last_name}
-                  </TableCell>
-                  <TableCell align="left">
-                    {moment(arrival_date).format("DD MMMM YYYY")}
-                  </TableCell>
-                  <TableCell align="left">
-                    {moment(departure_date).format("DD MMMM YYYY")}
-                  </TableCell>
-                  <TableCell align="left">
-                    {rooms.map(({ room }) => (
-                      <Chip
-                        label={room.room_number}
+    <Box mt={1}>
+      <Paper>
+        <Box mb={1.5}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>#</TableCell>
+                <TableCell align="left">Клиентско име</TableCell>
+                <TableCell align="left">Настаняване</TableCell>
+                <TableCell align="left">Освобождаване</TableCell>
+                <TableCell align="left">Стай</TableCell>
+                <TableCell align="left">Съставена</TableCell>
+                <TableCell align="left">Редактирана</TableCell>
+                <TableCell align="left"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.reservation.map(
+                (
+                  {
+                    id,
+                    arrival_date,
+                    departure_date,
+                    rooms,
+                    created_at,
+                    updated_at,
+                    client: { first_name, last_name },
+                  },
+                  index
+                ) => (
+                  <TableRow key={id}>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="left">
+                      {first_name} {last_name}
+                    </TableCell>
+                    <TableCell align="left">
+                      {moment(arrival_date).format("DD MMMM YYYY")}
+                    </TableCell>
+                    <TableCell align="left">
+                      {moment(departure_date).format("DD MMMM YYYY")}
+                    </TableCell>
+                    <TableCell align="left">
+                      {rooms.map(({ room }) => (
+                        <Chip
+                          label={room.room_number}
+                          style={{ marginRight: 5 }}
+                        />
+                      ))}
+                    </TableCell>
+                    <TableCell align="left">
+                      {moment(created_at).format("DD MMMM YYYY")}
+                    </TableCell>
+                    <TableCell align="left">
+                      {moment(updated_at).format("DD MMMM YYYY")}
+                    </TableCell>
+                    <TableCell align="left">
+                      <Button
+                        size="small"
+                        color="secondary"
+                        variant="outlined"
+                        onClick={() => {
+                          alert("You are about to delete")
+                          deleteReservation({ variables: { id } })
+                        }}
                         style={{ marginRight: 5 }}
-                      />
-                    ))}
-                  </TableCell>
-                  <TableCell align="left">
-                    {moment(created_at).format("DD MMMM YYYY")}
-                  </TableCell>
-                  <TableCell align="left">
-                    {moment(updated_at).format("DD MMMM YYYY")}
-                  </TableCell>
-                  <TableCell align="left">{id}</TableCell>
-                  <TableCell align="left">
-                    <Button
-                      size="small"
-                      color="secondary"
-                      variant="outlined"
-                      onClick={() => {
-                        alert("You are about to delete")
-                        deleteReservation({ variables: { id } })
-                      }}
-                    >
-                      изтрий
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )
-            )}
-          </TableBody>
-        </Table>
-      </Box>
-    </Paper>
+                      >
+                        изтрий
+                      </Button>
+                      <Button
+                        size="small"
+                        color="default"
+                        variant="outlined"
+                        onClick={() => {
+                          navigate(`/reservation?id=${id}`)
+                        }}
+                      >
+                        редактирай
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
+            </TableBody>
+          </Table>
+        </Box>
+      </Paper>
+    </Box>
   ) : (
-    <h1>Няма текущи резерваций...</h1>
+    <h1>Няма текущи резервации...</h1>
   )
 }

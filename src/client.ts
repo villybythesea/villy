@@ -4,18 +4,18 @@ import { WebSocketLink } from "apollo-link-ws"
 import ws from "ws"
 import { getMainDefinition } from "apollo-utilities"
 import { extendMoment } from "moment-range"
+import isNode from "is-node"
+
 const Moment = require("moment")
 
 const moment = extendMoment(Moment)
-
-const wsForNode = typeof window === "undefined" ? ws : null
 
 const wsLink = new WebSocketLink({
   uri: `${process.env.GATSBY_WS_URL}`,
   options: {
     reconnect: true,
   },
-  webSocketImpl: wsForNode,
+  webSocketImpl: isNode ? ws : null,
 })
 
 const httpLink = new HttpLink({
