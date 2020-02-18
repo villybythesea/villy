@@ -8,6 +8,6 @@ export const wrapRootElement = ({ element }: any) => (
   <ApolloProvider client={client}>
     <CssBaseline />
     <Navigation />
-    <Box m={2}>{element}</Box>
+    <Box style={{ margin: 16 }}>{element}</Box>
   </ApolloProvider>
 )
