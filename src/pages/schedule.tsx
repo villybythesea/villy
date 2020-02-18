@@ -37,6 +37,18 @@ const ROOMS_SUBSCRIPTION = gql`
 
 function Schedule() {
   const { loading, error, data } = useSubscription(ROOMS_SUBSCRIPTION)
+  // useSubscription(gql`
+  //   subscription {
+  //     reservation {
+  //       id
+  //       arrival_date
+  //       departure_date
+  //       reservation_rooms {
+  //         room_id
+  //       }
+  //     }
+  //   }
+  // `)
   const [currentMonth, setCurrentMonth] = React.useState(Moment())
   const [selectedId, setSelectedId] = React.useState(null)
   const [anchorEl, setAnchorEl] = React.useState(null)
