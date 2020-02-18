@@ -22,7 +22,7 @@ export const Authenticator = () => {
           color="primary"
           style={{ marginTop: 16 }}
           onClick={() => {
-            if (pass === "kokorok1") {
+            if (pass === process.env.GATSBY_ADMIN_PASS) {
               setIsAuth(true)
             }
           }}
