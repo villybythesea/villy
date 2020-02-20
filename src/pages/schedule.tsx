@@ -241,6 +241,13 @@ const SelectedReservation = ({ id, anchorEl, handleClose, open }) => {
           <Typography>
             Клиентски тел. номер: {data?.reservation_by_pk.client.phone_number}
           </Typography>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => navigate(`reservation?id=${id}`)}
+          >
+            Виж повече
+          </Button>
         </Box>
       </Box>
     </Popover>
