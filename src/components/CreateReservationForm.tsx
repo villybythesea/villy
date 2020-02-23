@@ -1,32 +1,23 @@
 import * as React from "react"
-import { navigate } from "gatsby"
 import {
   Paper,
   Box,
   Button,
-  InputLabel,
-  FormControl,
-  MenuItem,
   FormControlLabel,
   RadioGroup,
   Radio,
   FormHelperText,
   CircularProgress,
 } from "@material-ui/core"
-import { TextField, Select } from "formik-material-ui"
-import { Formik, Form, useFormikContext } from "formik"
+import { TextField } from "formik-material-ui"
+import { Formik, Form } from "formik"
 import gql from "graphql-tag"
-import { useMutation, useQuery } from "@apollo/react-hooks"
-
-import MomentUtils from "@date-io/moment"
-import { MuiPickersUtilsProvider } from "@material-ui/pickers"
-import { DatePicker } from "formik-material-ui-pickers"
+import { useMutation } from "@apollo/react-hooks"
 import * as Yup from "yup"
 import moment from "moment"
-import "moment/locale/bg" // without this line it didn't work
-import { Reservations } from "../components/Reservations"
-
-moment.locale("bg")
+import { CapacitySelectField } from "./CapacityCheckField"
+import { SelectUserField } from "./SelectUserField"
+import { DateRangeFields } from "./DateRangeFields"
 
 const {
   REQUIRED_FIELD,
@@ -44,38 +35,6 @@ const {
   REGISTRATION_SUBMIT_LABEL: "Запиши",
 }
 
-const SelectField = props => {
-  const inputLabel = React.useRef(null)
-  const [labelWidth, setLabelWidth] = React.useState(0)
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth)
-  }, [])
-  return (
-    <FormControl variant="outlined" style={{ marginTop: 15 }}>
-      <InputLabel ref={inputLabel} id={`select-label-${props.name}`}>
-        {props.label} {props.required && "*"}
-      </InputLabel>
-      <Select
-        labelId={`select-label-${props.name}`}
-        labelWidth={labelWidth}
-        {...props}
-        MenuProps={{
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "left",
-          },
-          transformOrigin: {
-            vertical: "top",
-            horizontal: "left",
-          },
-          getContentAnchorEl: null,
-        }}
-      >
-        {props.children}
-      </Select>
-    </FormControl>
-  )
-}
 const RESERVATION_MUTATION = gql`
   mutation CreateReservation(
     $arrival_date: date!
@@ -97,95 +56,28 @@ const RESERVATION_MUTATION = gql`
     }
   }
 `
-const CAPACITY_CHECK = gql`
-  query($arrival_date: String!, $departure_date: String!) {
-    capacity_check(
-      arrival_date: $arrival_date
-      departure_date: $departure_date
-    ) @client
+
+const CREATE_RESERVATION_UPDATE_CLIENT_MUTATION = gql`
+  mutation CreateReservation(
+    $arrival_date: date!
+    $departure_date: date!
+    $data: [reservation_room_insert_input!]!
+    $userId: uuid!
+    $note: String
+  ) {
+    insert_reservation(
+      objects: {
+        arrival_date: $arrival_date
+        departure_date: $departure_date
+        reservation_rooms: { data: $data }
+        client_id: $userId
+        note: $note
+      }
+    ) {
+      affected_rows
+    }
   }
 `
-
-const CapacitySelectField = () => {
-  const {
-    values: { arrival_date, departure_date },
-  } = useFormikContext()
-  const { data, loading, error } = useQuery(CAPACITY_CHECK, {
-    variables: { arrival_date, departure_date },
-  })
-  if (loading) return "loading..."
-  if (error) return error.message
-  return (
-    <>
-      <SelectField
-        multiple
-        required
-        name="roomIds"
-        label={`Стай (${data?.capacity_check.length | 0})`}
-        error={data?.capacity_check.length === 0}
-        disabled={data?.capacity_check.length === 0}
-      >
-        {data.capacity_check.map(({ room_number, id }) => (
-          <MenuItem value={id}>{room_number}</MenuItem>
-        ))}
-      </SelectField>
-      {data?.capacity_check.length === 0 && (
-        <FormHelperText error>Няма свободни стаи</FormHelperText>
-      )}
-    </>
-  )
-}
-const SelectUserField = () => {
-  const { data, loading, error } = useQuery(gql`
-    query {
-      client {
-        id
-        first_name
-        last_name
-      }
-    }
-  `)
-  if (loading) return <div>loading</div>
-  if (error) return <div>{error.message}</div>
-  return (
-    <SelectField name="userId" label={"Клиентско име"} required>
-      {data.client.map(({ first_name, last_name, id }) => (
-        <MenuItem key={id} value={id}>
-          {first_name} {last_name}
-        </MenuItem>
-      ))}
-    </SelectField>
-  )
-}
-
-const DateRangePickers = () => {
-  const {
-    values: { arrival_date },
-  } = useFormikContext()
-  return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <DatePicker
-        autoOk
-        disablePast
-        name="arrival_date"
-        label={ARRIVAL_DATE_LABEL}
-        inputVariant="outlined"
-        style={{ marginTop: 15 }}
-        required
-      />
-      <DatePicker
-        autoOk
-        disablePast
-        name="departure_date"
-        label={DEPARTURE_DATE_LABEL}
-        inputVariant="outlined"
-        required
-        style={{ marginTop: 15 }}
-        minDate={moment(arrival_date).add("days", 1)}
-      />
-    </MuiPickersUtilsProvider>
-  )
-}
 
 const IndexPage = () => {
   const [value, setValue] = React.useState("new")
@@ -199,76 +91,90 @@ const IndexPage = () => {
   const [addReservationWithNewUser, { error: newUserError }] = useMutation(
     RESERVATION_MUTATION
   )
-  console.log(data)
+  const validationSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        arrival_date: Yup.date().required(REQUIRED_FIELD),
+        departure_date: Yup.date().required(REQUIRED_FIELD),
+        ...(value === "new" && {
+          first_name: Yup.string().required(REQUIRED_FIELD),
+          last_name: Yup.string().required(REQUIRED_FIELD),
+          email: Yup.string()
+            .nullable()
+            .email(INVALID_EMAIL),
+          phone_number: Yup.number()
+            .nullable()
+            .required(REQUIRED_FIELD),
+        }),
+        ...(value === "existing" && { userId: Yup.string().required() }),
+        roomIds: Yup.array()
+          .of(Yup.string())
+          .min(1),
+        note: Yup.string(),
+      }),
+    [value]
+  )
+
+  const initialValues = React.useMemo(
+    () => ({
+      arrival_date: moment(),
+      departure_date: moment().add(3, "days"),
+      first_name: "",
+      last_name: "",
+      email: null,
+      phone_number: null,
+      roomIds: [],
+      note: "",
+      userId: null,
+    }),
+    []
+  )
+
+  const handleOnSubmit = (values, { setSubmitting, resetForm }) => {
+    if (values.userId) {
+      addReservationWithExistingClient({
+        variables: {
+          arrival_date: values.arrival_date,
+          departure_date: values.departure_date,
+          data: values.roomIds.map(room_id => ({ room_id })),
+          userId: values.userId,
+          note: values.note,
+        },
+      })
+    } else {
+      addReservationWithNewUser({
+        variables: {
+          arrival_date: values.arrival_date,
+          departure_date: values.departure_date,
+          data: values.roomIds.map(room_id => ({ room_id })),
+          userData: {
+            email: values.email,
+            first_name: values.first_name,
+            last_name: values.last_name,
+            phone_number: values.phone_number,
+          },
+          note: values.note,
+        },
+      })
+    }
+    resetForm()
+    setSubmitting(false)
+  }
 
   return (
     <>
       <Paper>
         <Formik
-          initialValues={{
-            arrival_date: moment(),
-            departure_date: moment().add(3, "days"),
-            first_name: "",
-            last_name: "",
-            email: null,
-            phone_number: null,
-            roomIds: [],
-            note: "",
-            userId: null,
-          }}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            if (values.userId) {
-              addReservationWithExistingClient({
-                variables: {
-                  arrival_date: values.arrival_date,
-                  departure_date: values.departure_date,
-                  data: values.roomIds.map(room_id => ({ room_id })),
-                  userId: values.userId,
-                  note: values.note,
-                },
-              })
-            } else {
-              addReservationWithNewUser({
-                variables: {
-                  arrival_date: values.arrival_date,
-                  departure_date: values.departure_date,
-                  data: values.roomIds.map(room_id => ({ room_id })),
-                  userData: {
-                    email: values.email,
-                    first_name: values.first_name,
-                    last_name: values.last_name,
-                    phone_number: values.phone_number,
-                  },
-                  note: values.note,
-                },
-              })
-            }
-            resetForm()
-            setSubmitting(false)
-          }}
-          validationSchema={Yup.object().shape({
-            arrival_date: Yup.date().required(REQUIRED_FIELD),
-            departure_date: Yup.date().required(REQUIRED_FIELD),
-            ...(value === "new" && {
-              first_name: Yup.string().required(REQUIRED_FIELD),
-              last_name: Yup.string().required(REQUIRED_FIELD),
-              email: Yup.string()
-                .nullable()
-                .email(INVALID_EMAIL),
-              phone_number: Yup.number()
-                .nullable()
-                .required(REQUIRED_FIELD),
-            }),
-            ...(value === "existing" && { userId: Yup.string().required() }),
-            roomIds: Yup.array()
-              .of(Yup.string())
-              .min(1),
-            note: Yup.string(),
-          })}
+          initialValues={initialValues}
+          onSubmit={handleOnSubmit}
+          validationSchema={validationSchema}
         >
           <Form noValidate autoComplete="off">
             <Box p={2} display="flex" flexDirection="column">
-              <DateRangePickers />
+              <DateRangeFields
+                startDateProps={{ label: ARRIVAL_DATE_LABEL }}
+                endDateProps={{ label: DEPARTURE_DATE_LABEL }}
+              />
               <CapacitySelectField />
               <RadioGroup
                 aria-label="gender"
@@ -367,27 +273,5 @@ const IndexPage = () => {
     </>
   )
 }
-
-const CREATE_RESERVATION_UPDATE_CLIENT_MUTATION = gql`
-  mutation CreateReservation(
-    $arrival_date: date!
-    $departure_date: date!
-    $data: [reservation_room_insert_input!]!
-    $userId: uuid!
-    $note: String
-  ) {
-    insert_reservation(
-      objects: {
-        arrival_date: $arrival_date
-        departure_date: $departure_date
-        reservation_rooms: { data: $data }
-        client_id: $userId
-        note: $note
-      }
-    ) {
-      affected_rows
-    }
-  }
-`
 
 export default IndexPage
