@@ -36,38 +36,41 @@ export default props => {
   })
 
   return (
-    <Paper>
-      <Box mb={1.5} p={2}>
-        <div>
-          <b>ID:</b> {id}
-        </div>
-        <div>
-          <b>Arrival date:</b> {data.reservation_by_pk.arrival_date}
-        </div>
-        <div>
-          <b>Departure date:</b> {data.reservation_by_pk.departure_date}
-        </div>
-        <div>
-          <b>Days:</b> {nights}
-        </div>
-        <div>
-          <b>Price:</b> {total} lv.
-        </div>
-        <div>
-          <b>Deposit:</b> {deposit} lv.
-        </div>
-        <br />
-        <div>
-          <TextField
-            label="Note"
-            variant="outlined"
-            value={data.reservation_by_pk.note}
-            disabled
-            multiline
-            rows={4}
-          />
-        </div>
-      </Box>
-    </Paper>
+    <>
+      <h1>Резервация: </h1>
+      <Paper>
+        <Box mb={1.5} p={2}>
+          <div>
+            <b>ID:</b> {id}
+          </div>
+          <div>
+            <b>Arrival date:</b> {data.reservation_by_pk.arrival_date}
+          </div>
+          <div>
+            <b>Departure date:</b> {data.reservation_by_pk.departure_date}
+          </div>
+          <div>
+            <b>Days:</b> {nights}
+          </div>
+          <div>
+            <b>Price:</b> {total} lv.
+          </div>
+          <div>
+            <b>Deposit:</b> {deposit} lv.
+          </div>
+          <br />
+          <div>
+            <TextField
+              label="Note"
+              variant="outlined"
+              value={data.reservation_by_pk.note}
+              disabled
+              multiline
+              rows={4}
+            />
+          </div>
+        </Box>
+      </Paper>
+    </>
   )
 }
