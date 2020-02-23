@@ -103,19 +103,25 @@ function Schedule() {
               <TableRow
                 style={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
               >
-                <TableCell>Number/Day</TableCell>
+                <TableCell>№</TableCell>
                 {calendarRange.map(day => (
                   <TableCell
                     style={{
                       borderLeft: "1px solid rgba(224, 224, 224, 1)",
                       backgroundColor:
-                        day.weekday() === 6 || day.weekday() === 0
+                        day.weekday() === 5 || day.weekday() === 6
                           ? "#ffffa8"
                           : "initial",
                     }}
                   >
-                    <Box display="flex" justifyContent="center">
-                      {day.format("D")}
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      flexDirection="column"
+                    >
+                      <div>{day.format("dd")}</div>
+                      <div>{day.format("D")}</div>
                     </Box>
                   </TableCell>
                 ))}
@@ -154,7 +160,7 @@ function Schedule() {
                             borderLeft: "1px solid rgba(224, 224, 224, 1)",
                             backgroundColor:
                               reservedDay?.color ||
-                              ((day.weekday() === 6 || day.weekday() === 0) &&
+                              ((day.weekday() === 5 || day.weekday() === 6) &&
                                 "#ffffa8") ||
                               "initial",
                           }}
