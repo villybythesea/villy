@@ -1,5 +1,5 @@
 import React from "react"
-import { TextField, Dialog, Paper, Box, Button } from "@material-ui/core"
+import { TextField, Dialog, Box, Button } from "@material-ui/core"
 import { useCookie } from "@use-hook/use-cookie"
 
 export const Authenticator = () => {
