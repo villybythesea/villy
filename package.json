@@ -4,7 +4,7 @@
   "description": "A simple dash for reservations",
   "version": "0.1.0",
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.3",
+    "@apollo/react-hooks": "^4.0.0",
     "@date-io/moment": "1.3.13",
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
