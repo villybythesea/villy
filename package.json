@@ -44,7 +44,7 @@
     "@graphql-codegen/cli": "^1.12.1",
     "@graphql-codegen/typescript": "1.12.1",
     "@graphql-codegen/typescript-operations": "1.12.1",
-    "@graphql-codegen/typescript-react-apollo": "1.12.1",
+    "@graphql-codegen/typescript-react-apollo": "2.2.1",
     "@types/color-hash": "^1.0.0",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/ws": "^7.2.1",
