@@ -10,6 +10,7 @@ const yearlyPricing = {
       JULY: 60,
       AUGUST: 60,
       SEPTEMBER: 50,
+      OCTOBER: 50,
     },
     tripple: {
       MAY: 60,
@@ -17,6 +18,7 @@ const yearlyPricing = {
       JULY: 90,
       AUGUST: 90,
       SEPTEMBER: 75,
+      OCTOBER: 75,
     },
     apartment: {
       MAY: 90,
@@ -24,6 +26,7 @@ const yearlyPricing = {
       JULY: 120,
       AUGUST: 120,
       SEPTEMBER: 100,
+      OCTOBER: 100,
     },
   },
   2021: {
@@ -33,6 +36,7 @@ const yearlyPricing = {
       JULY: 65,
       AUGUST: 65,
       SEPTEMBER: 60,
+      OCTOBER: 60,
     },
     tripple: {
       MAY: 70,
@@ -40,6 +44,7 @@ const yearlyPricing = {
       JULY: 98,
       AUGUST: 98,
       SEPTEMBER: 90,
+      OCTOBER: 90,
     },
     apartment: {
       MAY: 95,
@@ -47,6 +52,7 @@ const yearlyPricing = {
       JULY: 130,
       AUGUST: 130,
       SEPTEMBER: 120,
+      OCTOBER: 120,
     },
   },
 }
@@ -91,6 +97,11 @@ export const useReservationCalc = ({ rooms, arrival_date, departure_date }) => {
             .month(8)
             .range("month")
             .contains(moment(day)) && "SEPTEMBER"
+        const containsOctober =
+          moment(yearOfReservation)
+            .month(9)
+            .range("month")
+            .contains(moment(day)) && "OCTOBER"
 
         return (
           acc +
@@ -99,7 +110,8 @@ export const useReservationCalc = ({ rooms, arrival_date, departure_date }) => {
               containsJune ||
               containsJuly ||
               containsAugust ||
-              containsSeptember
+              containsSeptember ||
+              containsOctober
           ]
         )
       }, 0)
