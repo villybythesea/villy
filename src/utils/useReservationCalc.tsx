@@ -2,27 +2,52 @@ import { extendMoment } from "moment-range"
 const Moment = require("moment")
 const moment = extendMoment(Moment)
 
-const pricing = {
-  double: {
-    MAY: 40,
-    JUNE: 46,
-    JULY: 60,
-    AUGUST: 60,
-    SEPTEMBER: 50,
+const yearlyPricing = {
+  2020: {
+    double: {
+      MAY: 40,
+      JUNE: 46,
+      JULY: 60,
+      AUGUST: 60,
+      SEPTEMBER: 50,
+    },
+    tripple: {
+      MAY: 60,
+      JUNE: 69,
+      JULY: 90,
+      AUGUST: 90,
+      SEPTEMBER: 75,
+    },
+    apartment: {
+      MAY: 90,
+      JUNE: 92,
+      JULY: 120,
+      AUGUST: 120,
+      SEPTEMBER: 100,
+    },
   },
-  tripple: {
-    MAY: 60,
-    JUNE: 69,
-    JULY: 90,
-    AUGUST: 90,
-    SEPTEMBER: 75,
-  },
-  apartment: {
-    MAY: 90,
-    JUNE: 92,
-    JULY: 120,
-    AUGUST: 120,
-    SEPTEMBER: 100,
+  2021: {
+    double: {
+      MAY: 48,
+      JUNE: 60,
+      JULY: 65,
+      AUGUST: 65,
+      SEPTEMBER: 60,
+    },
+    tripple: {
+      MAY: 70,
+      JUNE: 90,
+      JULY: 98,
+      AUGUST: 98,
+      SEPTEMBER: 90,
+    },
+    apartment: {
+      MAY: 95,
+      JUNE: 120,
+      JULY: 130,
+      AUGUST: 130,
+      SEPTEMBER: 120,
+    },
   },
 }
 
@@ -65,9 +90,10 @@ export const useReservationCalc = ({ rooms, arrival_date, departure_date }) => {
             .month(8)
             .range("month")
             .contains(moment(day)) && "SEPTEMBER"
+        console.log(moment(day).format("YYYY"))
         return (
           acc +
-          pricing[room.room_type.room_type][
+          yearlyPricing[moment(day).format("YYYY")][room.room_type.room_type][
             containsMay ||
               containsJune ||
               containsJuly ||
