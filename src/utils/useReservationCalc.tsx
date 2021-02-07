@@ -65,35 +65,36 @@ export const useReservationCalc = ({ rooms, arrival_date, departure_date }) => {
     return (
       total +
       arrayOfDates.reduce((acc, day) => {
+        const yearOfReservation = moment(day).format("YYYY")
         const containsMay =
-          moment()
+          moment(yearOfReservation)
             .month(4)
             .range("month")
             .contains(moment(day)) && "MAY"
         const containsJune =
-          moment()
+          moment(yearOfReservation)
             .month(5)
             .range("month")
             .contains(moment(day)) && "JUNE"
         const containsJuly =
-          moment()
+          moment(yearOfReservation)
             .month(6)
             .range("month")
             .contains(moment(day)) && "JULY"
         const containsAugust =
-          moment()
+          moment(yearOfReservation)
             .month(7)
             .range("month")
             .contains(moment(day)) && "AUGUST"
         const containsSeptember =
-          moment()
+          moment(yearOfReservation)
             .month(8)
             .range("month")
             .contains(moment(day)) && "SEPTEMBER"
-        console.log(moment(day).format("YYYY"))
+
         return (
           acc +
-          yearlyPricing[moment(day).format("YYYY")][room.room_type.room_type][
+          yearlyPricing[yearOfReservation][room.room_type.room_type][
             containsMay ||
               containsJune ||
               containsJuly ||
