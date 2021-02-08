@@ -47,7 +47,7 @@
     "@graphql-codegen/typescript-react-apollo": "1.12.1",
     "@types/color-hash": "^1.0.0",
     "@types/isomorphic-fetch": "^0.0.35",
-    "@types/ws": "^7.2.1",
+    "@types/ws": "^7.4.0",
     "@types/yup": "^0.26.32",
     "prettier": "^1.19.1",
     "typescript": "^3.8.2"
