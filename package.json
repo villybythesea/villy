@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.1",
-    "@graphql-codegen/typescript": "1.12.1",
+    "@graphql-codegen/typescript": "1.22.0",
     "@graphql-codegen/typescript-operations": "1.12.1",
     "@graphql-codegen/typescript-react-apollo": "1.12.1",
     "@types/color-hash": "^1.0.0",
