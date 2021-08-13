@@ -39,6 +39,13 @@ function Schedule() {
   const [currentMonth, setCurrentMonth] = React.useState(Moment())
   const [selectedId, setSelectedId] = React.useState(null)
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const tableElement = React.useRef(null)
+  React.useEffect(() => {
+    console.log(tableElement.current)
+    if (tableElement && tableElement.current) {
+      tableElement.current.scrollTo(0, 0)
+    }
+  }, [currentMonth])
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -97,7 +104,7 @@ function Schedule() {
             </Box>
           </Box>
         </Box>
-        <TableContainer>
+        <TableContainer ref={tableElement}>
           <Table>
             <TableHead>
               <TableRow
