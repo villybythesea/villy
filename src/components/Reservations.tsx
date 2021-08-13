@@ -52,7 +52,7 @@ export const Reservations = () => {
   if (error) return <div>{`Error! ${error.message}`}</div>
   return data.reservation.length > 0 ? (
     <Box mt={1}>
-      <Paper>
+      <Paper style={{ overflowX: "auto" }}>
         <Box mb={1.5}>
           <Table aria-label="simple table">
             <TableHead>
