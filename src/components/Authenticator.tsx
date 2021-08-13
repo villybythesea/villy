@@ -1,6 +1,7 @@
 import React from "react"
 import { TextField, Dialog, Box, Button } from "@material-ui/core"
 import createPersistedState from "use-persisted-state"
+import useSSR from "use-ssr"
 
 const useIsAuth = createPersistedState("isAuth")
 
@@ -34,7 +35,4 @@ export const Authenticator = () => {
       </Box>
     </Dialog>
   )
-}
-function useSSR(): { isServer: any } {
-  throw new Error("Function not implemented.")
 }
