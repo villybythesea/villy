@@ -1,9 +1,11 @@
 import React from "react"
 import { TextField, Dialog, Box, Button } from "@material-ui/core"
-import { useCookie } from "@use-hook/use-cookie"
+import createPersistedState from "use-persisted-state"
+
+const useIsAuth = createPersistedState("isAuth")
 
 export const Authenticator = () => {
-  const [isAuth, setIsAuth] = useCookie("isAuth", false)
+  const [isAuth, setIsAuth] = useIsAuth(false)
   const [pass, setPass] = React.useState("")
   return (
     <Dialog open={!isAuth}>
@@ -25,7 +27,7 @@ export const Authenticator = () => {
             }
           }}
         >
-          Влзез
+          Влез
         </Button>
       </Box>
     </Dialog>
