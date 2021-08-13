@@ -5,6 +5,7 @@ import { Box, Typography, Button } from "@material-ui/core"
 import { navigate } from "gatsby"
 import Popover from "@material-ui/core/Popover"
 import { useReservationCalc } from "./../utils/useReservationCalc"
+import moment from "moment"
 
 export const SelectedReservation = ({ id, anchorEl, handleClose, open }) => {
   const { data, loading, error } = useQuery(
@@ -57,10 +58,16 @@ export const SelectedReservation = ({ id, anchorEl, handleClose, open }) => {
       <Box p={2}>
         <Box>
           <Typography>
-            Настаняване: {data?.reservation_by_pk.arrival_date}
+            Настаняване:{" "}
+            {moment(data?.reservation_by_pk.arrival_date).format(
+              "DD MMMM YYYY"
+            )}
           </Typography>
           <Typography>
-            Освобождаване: {data?.reservation_by_pk.departure_date}
+            Освобождаване:{" "}
+            {moment(data?.reservation_by_pk.departure_date).format(
+              "DD MMMM YYYY"
+            )}
           </Typography>
           <Typography>
             Клиентско име: {data?.reservation_by_pk.client.first_name}{" "}
