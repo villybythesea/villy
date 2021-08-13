@@ -13,7 +13,6 @@ export const DateRangeFields = ({ startDateProps, endDateProps }) => {
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <DatePicker
         autoOk
-        disablePast
         name="arrival_date"
         inputVariant="outlined"
         style={{ marginTop: 15 }}
@@ -22,7 +21,6 @@ export const DateRangeFields = ({ startDateProps, endDateProps }) => {
       />
       <DatePicker
         autoOk
-        disablePast
         name="departure_date"
         inputVariant="outlined"
         required
