@@ -7,6 +7,8 @@ const useIsAuth = createPersistedState("isAuth")
 export const Authenticator = () => {
   const [isAuth, setIsAuth] = useIsAuth(false)
   const [pass, setPass] = React.useState("")
+  const { isServer } = useSSR()
+  if (isServer) return null
   return (
     <Dialog open={!isAuth}>
       <Box display="flex" flexDirection={"column"} p={2}>
@@ -32,4 +34,7 @@ export const Authenticator = () => {
       </Box>
     </Dialog>
   )
+}
+function useSSR(): { isServer: any } {
+  throw new Error("Function not implemented.")
 }

@@ -38,6 +38,7 @@
     "react-helmet": "5.2.1",
     "subscriptions-transport-ws": "0.9.16",
     "use-persisted-state": "^0.3.3",
+    "use-ssr": "^1.0.24",
     "ws": "7.2.1",
     "yup": "0.28.1"
   },

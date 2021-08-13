@@ -71,7 +71,7 @@ function Schedule() {
   return (
     <>
       <h1>График: </h1>
-      <CreateReservationForm />
+      {/* <CreateReservationForm /> */}
       <Paper>
         <Box m={1} p={2}>
           <Box display="flex" flexDirection="row">
