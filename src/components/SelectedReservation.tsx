@@ -34,7 +34,7 @@ export const SelectedReservation = ({ id, anchorEl, handleClose, open }) => {
   if (loading) return "loading"
   if (error) return error.message
 
-  const { total, deposit, balance } = useReservationCalc({
+  const { total, deposit, balance, nights } = useReservationCalc({
     rooms: data.reservation_by_pk.reservation_rooms,
     arrival_date: data?.reservation_by_pk.arrival_date,
     departure_date: data?.reservation_by_pk.departure_date,
@@ -67,8 +67,9 @@ export const SelectedReservation = ({ id, anchorEl, handleClose, open }) => {
             {data?.reservation_by_pk.client.last_name}
           </Typography>
           <Typography>
-            Клиентски тел. номер: {data?.reservation_by_pk.client.phone_number}
+            Клиентски тел. номер: 0{data?.reservation_by_pk.client.phone_number}
           </Typography>
+          <Typography>Нощувки: {nights}</Typography>
           <Typography>Цена: {total} лв.</Typography>
           <Typography>Депозит: {deposit} лв.</Typography>
           <Typography>Остатък: {balance} лв.</Typography>
